@@ -2,38 +2,25 @@ import http from "http";
 import https from "https";
 import fs from "fs";
 import path from "path";
-import express from "express";
-import session from "express-session"
+import express from "express"
+import {createServer} from "@graphql-yoga/node";
 import {info} from "../helpers/logging.js";
-import {graphqlHTTP} from "express-graphql";
 import {schema} from "../graphql/schema.js";
-import {root} from "../graphql/root.js";
 
 const app = express()
 
 const route = () => {
     app.use(express.json())
     app.use(express.urlencoded({ extended: true }))
-    app.use(session({
-        resave: false,
-        saveUninitialized: false,
-        secret: 'Russian warship - Fuck You!',
-        cookie: {
-            maxAge: 24 * 3600000,
-            secure: 'auto'
-        }
-    }))
 
     app.locals.pretty = true
 
-    app.get('/', async (req, res) => {
+    const yoga = createServer({
+        schema,
+        graphiql: true,
     })
 
-    app.use('/graphql', graphqlHTTP({
-        schema: schema,
-        rootValue: root,
-        graphiql: true,
-    }))
+    app.use('/graphql', yoga);
 }
 
 export const runWebServer = () => {

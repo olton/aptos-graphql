@@ -1,0 +1,52 @@
+{
+    "name": "@olton/aptos-graphql",
+    "version": "0.0.1",
+    "description": "Aptos GraphQL Server",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/olton/aptos-graphql.git"
+    },
+    "keywords": [
+        "graphql",
+        "javascript",
+        "node",
+        "aptos"
+    ],
+    "author": "Serhii Pimenov <serhii@pimenov.com.ua>",
+    "bugs": {
+        "url": "https://github.com/olton/aptos-graphql/issues"
+    },
+    "homepage": "https://github.com/olton/aptos-graphql#readme",
+    "main": "src/index.js",
+    "type": "module",
+    "scripts": {
+        "start": "node .",
+        "dev": "nodemon ."
+    },
+    "license": "MIT",
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/olton"
+    },
+    "browserslist": [
+        "last 1 Chrome versions",
+        "last 1 Firefox versions",
+        "last 1 Opera versions",
+        "last 1 Edge versions"
+    ],
+    "dependencies": {
+        "@olton/aptos-api": "^0.2.0",
+        "@olton/datetime": "^0.2.1",
+        "express": "^4.18.1",
+        "express-graphql": "^0.12.0",
+        "express-session": "^1.17.3",
+        "graphql": "^16.5.0",
+        "node-fetch": "^3.2.9",
+        "pg": "^8.7.3",
+        "serve-favicon": "^2.5.0",
+        "ws": "^8.8.1"
+    },
+    "devDependencies": {
+        "jest": "^28.1.3",
+        "shx": "^0.3.4"
+    }
+}

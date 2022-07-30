@@ -1,0 +1,30 @@
+{
+  "aptos": {
+    "api": "https://fullnode.devnet.aptoslabs.com"
+  },
+  "indexer": {
+    "host": "localhost:5432",
+    "user": "user",
+    "password": "password",
+    "database": "schema"
+  },
+  "graphql": {
+    "host": "localhost",
+    "port": 4000,
+    "ssl": {
+      "cert": "",
+      "key": ""
+    }
+  },
+  "date-format": {
+    "log": "DD/MM/YYYY HH:mm:ss",
+    "log_am": "MM/DD/YYYY HH:mm:ss",
+    "full": "DD, MMM YYYY HH:mm:ss",
+    "date": "DD, MMM YYYY",
+    "datetime": "DD, MMM YYYY HH:mm",
+    "time": "HH:mm"
+  },
+  "debug": {
+    "pg_query": false
+  }
+}

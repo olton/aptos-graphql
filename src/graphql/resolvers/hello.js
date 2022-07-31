@@ -1,3 +1,7 @@
-export const hello = () => {
-    return 'Hello From Aptos GraphQL Server!';
+export const HelloResolver = {
+    Query: {
+        hello(){
+            return 'Hello From Aptos GraphQL Server!';
+        }
+    }
 }

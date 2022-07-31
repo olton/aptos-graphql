@@ -10,7 +10,7 @@ export const LedgerType =  /* GraphQL */`
     }
 
     type Ledger {
-        node: String!
+        node: String
         state: LedgerState
     }
 `

@@ -4,7 +4,7 @@ import {datetime} from "@olton/datetime";
 export const LedgerResolver = {
     Query: {
         async ledger(obj, args, context, info){
-            const nodes = args.node.length === 0 ? [config.aptos.api] : [...args.node]
+            const nodes = !args.node || args.node.length === 0 ? [config.aptos.api] : [...args.node]
             const result = []
             let state = {
                 chain_id: "0",

@@ -1,23 +1,16 @@
-import {HelloResolver} from "./resolvers/hello.js";
-import {HealthResolver} from "./resolvers/health.js";
-import {LedgerResolver} from "./resolvers/ledger.js";
-import {LedgerType} from "./types/ledger.js";
-import {HealthType} from "./types/health.js";
-import {QueryType} from "./types/query.js";
+import {makeExecutableSchema} from "@graphql-tools/schema";
+import {loadSchemaSync} from "@graphql-tools/load";
+import {GraphQLFileLoader} from "@graphql-tools/graphql-file-loader";
+import {resolvers} from "./resolvers/index.js";
+import path from "path";
+import {fileURLToPath} from "url";
 
-const typeDefs = [
-    HealthType,
-    LedgerType,
-    QueryType
-]
-
-const resolvers = [
-    HelloResolver,
-    HealthResolver,
-    LedgerResolver
-]
-
-export const schema = {
-    typeDefs,
-    resolvers,
-}
+const __graph = path.dirname(fileURLToPath(import.meta.url))
+// const resolvers = [].concat(Query)
+console.log(resolvers)
+export const schema = makeExecutableSchema({
+    typeDefs: loadSchemaSync(path.resolve(__graph, 'schemas/**/*.graphql'), {
+        loaders: [new GraphQLFileLoader()],
+    }),
+    resolvers
+})

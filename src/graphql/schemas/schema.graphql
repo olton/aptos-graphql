@@ -1,0 +1,40 @@
+type Health {
+    node: String!
+    status: String!
+}
+
+type LedgerState {
+    chain_id: String!
+    epoch: String!
+    ledger_version: String!
+    oldest_ledger_version: String
+    ledger_timestamp: String!
+    node_role: String!
+    message: String
+}
+
+type Ledger {
+    node: String
+    state: LedgerState
+}
+
+type Address {
+    address: String!
+    authentication_key: String!
+    sequence_number: String!
+    message: String
+    balance(coin: String!): Balance
+}
+
+type Balance {
+    coin: String!
+    balance: String!
+    message: String
+}
+
+type Query {
+    hello: String!
+    health(nodes: [String]): [Health]
+    ledger(nodes: [String]): [Ledger]
+    address(addr: [String]): [Address]
+}

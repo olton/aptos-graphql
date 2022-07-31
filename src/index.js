@@ -5,7 +5,6 @@ import {info, error} from "./helpers/logging.js"
 import {runWebServer} from "./components/webserver.js";
 import {broadcast} from "./components/websocket.js";
 import {createDBConnection} from "./components/postgres.js";
-import {Aptos} from "@olton/aptos-api";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const readJson = (p) => JSON.parse(fs.readFileSync(p, 'utf-8'))
@@ -13,11 +12,11 @@ const readJson = (p) => JSON.parse(fs.readFileSync(p, 'utf-8'))
 globalThis.rootPath = path.dirname(__dirname)
 globalThis.serverPath = __dirname
 globalThis.srcPath = rootPath + "/src"
+globalThis.graphqlPath = srcPath + "/graphql"
 globalThis.pkg = readJson(""+path.resolve(rootPath, "package.json"))
 globalThis.config = readJson(""+path.resolve(serverPath, "config.json"))
 globalThis.appVersion = pkg.version
 globalThis.appName = `Aptos GraphQL v${pkg.version}`
-globalThis.aptos = new Aptos(config.aptos.api)
 
 const runProcesses = () => {
 }

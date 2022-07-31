@@ -14,7 +14,6 @@ const route = () => {
     app.use(express.urlencoded({ extended: true }))
 
     app.locals.pretty = true
-
     const yoga = createServer({
         schema,
         graphiql: true,

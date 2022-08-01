@@ -1,0 +1,45 @@
+type TransactionsCount {
+    success: String
+    failed: String
+    unknown: String
+    state_checkpoint_transaction: String
+    block_metadata_transaction: String
+    user_transaction: String
+    genesis_transaction: String
+}
+
+type Transaction {
+    type: String
+    version: String
+    hash: String
+    state_root_hash: String
+    event_root_hash: String
+    gas_used: String
+    success: Boolean
+    vm_status: String
+    accumulator_root_hash: String
+    sender: String
+    sequenceNumber: String
+    max_gas_amount: String
+    gas_unit_price: String
+    expiration_timestamp_secs: String
+    timestamp: String
+    changes: [TransactionChanges]
+    payload: [TransactionPayload]
+    signature: [TransactionSignature]
+    events: [TransactionEvents]
+}
+
+type TransactionChanges {
+    _empty: String
+}
+type TransactionPayload {
+    _empty: String
+}
+type TransactionSignature {
+    _empty: String
+}
+type TransactionEvents {
+    _empty: String
+}
+

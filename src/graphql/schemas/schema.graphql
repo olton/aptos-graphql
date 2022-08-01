@@ -1,52 +1,22 @@
-type Health {
-    node: String!
-    status: String!
-}
-
-type LedgerState {
-    chain_id: String!
-    epoch: String!
-    ledger_version: String!
-    oldest_ledger_version: String
-    ledger_timestamp: String!
-    node_role: String!
-    message: String
-}
-
-type Ledger {
-    node: String
-    state: LedgerState
-}
-
-type Address {
-    address: String!
-    authentication_key: String!
-    sequence_number: String!
-    message: String
-    balance(coin: String!): Balance
-}
-
-type Balance {
-    coin: String!
-    balance: String!
-    message: String
-}
-
-type TransactionsCount {
-    success: String
-    failed: String
-    unknown: String
-    state_checkpoint_transaction: String
-    block_metadata_transaction: String
-    user_transaction: String
-    genesis_transaction: String
+schema {
+    query: Query
+    mutation: Mutation
+    subscription: Subscription
 }
 
 type Query {
-    hello: String!
-    health(nodes: [String], node: String): [Health]
-    ledger(nodes: [String], node: String): [Ledger]
     address(addr: [String]): [Address]
-
+    health(node: String, nodes: [String]): [Health]
+    hello: String!
+    ledger(node: String, nodes: [String]): [Ledger]
+    transaction(hash: String, hashes: [String]): [Transaction]
     transactionsCount: TransactionsCount
+}
+
+type Mutation {
+    _empty: String
+}
+
+type Subscription {
+    _empty: String
 }

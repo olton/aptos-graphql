@@ -1,0 +1,7 @@
+type Address {
+    address: String!
+    authentication_key: String!
+    sequence_number: String!
+    message: String
+    balance(coin: String!, coins: [String]): Balance
+}

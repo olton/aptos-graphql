@@ -1,0 +1,5 @@
+type Balance {
+    coin: String!
+    balance: String!
+    message: String
+}

@@ -1,0 +1,1 @@
+export const hello = () => `Hello From Aptos GraphQL Server!`

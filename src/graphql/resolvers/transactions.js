@@ -66,5 +66,16 @@ export const transaction = async (_, {hash: tr_hash}) => {
 
     if (!response.ok) throw new GraphQLYogaError(response.message)
 
-    return {detail: response.payload}
+    const {type, version, hash, success, vm_status, gas_used, timestamp} = response.payload
+
+    return {
+        type,
+        version,
+        hash,
+        success,
+        vm_status,
+        gas_used,
+        timestamp,
+        detail: response.payload
+    }
 }

@@ -9,6 +9,13 @@ type TransactionsCount {
 }
 
 type Transaction {
+    type: String
+    version: String
+    hash: String
+    success: Boolean
+    vm_status: String
+    gas_used: String
+    timestamp: String
     detail: JSON
 }
 

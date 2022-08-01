@@ -2,9 +2,10 @@ import path from "path"
 import { fileURLToPath } from 'url'
 import fs from "fs"
 import {info, error} from "./helpers/logging.js"
-import {runWebServer} from "./components/webserver.js";
-import {broadcast} from "./components/websocket.js";
-import {createDBConnection} from "./components/postgres.js";
+import {runWebServer} from "./webserver/webserver.js";
+import {broadcast} from "./webserver/websocket.js";
+import {Indexer} from "@olton/aptos-indexer-api";
+import {Aptos} from "@olton/aptos-api";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const readJson = (p) => JSON.parse(fs.readFileSync(p, 'utf-8'))
@@ -17,8 +18,31 @@ globalThis.pkg = readJson(""+path.resolve(rootPath, "package.json"))
 globalThis.config = readJson(""+path.resolve(serverPath, "config.json"))
 globalThis.appVersion = pkg.version
 globalThis.appName = `Aptos GraphQL v${pkg.version}`
+globalThis.indexer = null
+globalThis.aptos = null
 
 const runProcesses = () => {
+
+    info(`Aptos GraphQL Server Background processes started!`)
+}
+
+const createAptosConnection = () => {
+    const node = config.aptos.api
+    globalThis.aptos = new Aptos(node)
+    info(`Aptos GraphQL Server connected to default Aptos Node ${node}!`)
+}
+
+const createIndexerConnection = () => {
+    const {proto, host, port, user, password, database} = config.indexer
+    globalThis.indexer = new Indexer({
+        proto,
+        host,
+        port,
+        user,
+        password,
+        database
+    })
+    info(`Aptos GraphQL Server connected to Indexer on the ${host}!`)
 }
 
 export const run = (configPath) => {
@@ -49,7 +73,8 @@ export const run = (configPath) => {
             }
         })
 
-        createDBConnection()
+        createIndexerConnection()
+        createAptosConnection()
         runProcesses()
         runWebServer()
 

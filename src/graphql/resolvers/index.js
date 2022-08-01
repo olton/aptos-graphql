@@ -4,9 +4,9 @@ import {datetime} from "@olton/datetime";
 const Query = {
     hello: () => "Hello from Aptos GraphQL Server!",
     health: async (_, args) => {
-        console.log(args)
-        const nodes = args.nodes.length === 0 ? [config.aptos.api] : [...args.nodes]
-
+        const nodes = !args.node && !args.nodes ?
+            [config.aptos.api] :
+            args.node ? [args.node] : [...args.nodes]
         const result = []
         for(let node of nodes) {
             const aptos = new Aptos(node)
@@ -19,7 +19,9 @@ const Query = {
         return result
     },
     ledger: async (_, args) => {
-        const nodes = !args.nodes || args.nodes.length === 0 ? [config.aptos.api] : [...args.nodes]
+        const nodes = !args.node && !args.nodes ?
+            [config.aptos.api] :
+            args.node ? [args.node] : [...args.nodes]
         const result = []
         let state = {
             chain_id: "0",
@@ -58,6 +60,28 @@ const Query = {
                 message: response.ok ? "OK" : response.message
             })
         }
+        return result
+    },
+    transactionsCount: async () => {
+        const rows = await indexer.transCount()
+        let success = 0, failed = 0, unknown = 0,
+            state_checkpoint_transaction = 0, block_metadata_transaction = 0,
+            user_transaction = 0, genesis_transaction = 0
+
+        const result = {
+            success: "0",
+            failed: "0",
+            unknown: "0",
+            state_checkpoint_transaction: "0",
+            block_metadata_transaction: "0",
+            user_transaction: "0",
+            genesis_transaction: "0",
+        }
+
+        for(let r of rows) {
+            result[r.type] = r.counter
+        }
+
         return result
     }
 }

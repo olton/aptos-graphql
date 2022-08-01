@@ -32,9 +32,21 @@ type Balance {
     message: String
 }
 
+type TransactionsCount {
+    success: String
+    failed: String
+    unknown: String
+    state_checkpoint_transaction: String
+    block_metadata_transaction: String
+    user_transaction: String
+    genesis_transaction: String
+}
+
 type Query {
     hello: String!
-    health(nodes: [String]): [Health]
-    ledger(nodes: [String]): [Ledger]
+    health(nodes: [String], node: String): [Health]
+    ledger(nodes: [String], node: String): [Ledger]
     address(addr: [String]): [Address]
+
+    transactionsCount: TransactionsCount
 }

@@ -1,5 +1,10 @@
 import {GraphQLYogaError} from "@graphql-yoga/node";
 
+const USER_TRANS = 'user_transaction'
+const META_TRANS = 'block_metadata_transaction'
+const GENESIS_TRANS = 'genesis_transaction'
+const STATE_TRANS = 'state_checkpoint_transaction'
+
 export const transactionsCount = async () => {
     const rows = await indexer.transCount()
     let success = 0, failed = 0, unknown = 0,
@@ -23,35 +28,43 @@ export const transactionsCount = async () => {
     return result
 }
 
-export const transaction = async (_, args) => {
-    if (!args.hash && !args.hashes) throw new GraphQLYogaError(`Transaction hash(es) not defined!`)
-    const transactions = args.hash ? [args.hash] : [...args.hashes]
-    const result = []
-    for(let tr of transactions) {
-        const response = await aptos.getTransaction(tr)
-        if (!response.ok) continue
-        const {payload: {
-            type, version, hash, state_root_hash, event_root_hash,
-            gas_used, success, vm_status, accumulator_root_hash, sender, sequenceNumber,
-            max_gas_amount, gas_unit_price, expiration_timestamp_secs, timestamp
-        }} = response
-        result.push({
-            type,
-            version,
-            hash,
-            state_root_hash,
-            event_root_hash,
-            gas_used,
-            success,
-            vm_status,
-            accumulator_root_hash,
-            sender,
-            sequenceNumber,
-            max_gas_amount,
-            gas_unit_price,
-            expiration_timestamp_secs,
-            timestamp,
-        })
+export const userTransaction = (response) => {
+    const {payload: {
+        sender, sequenceNumber,
+        max_gas_amount, gas_unit_price, expiration_timestamp_secs
+    }} = response
+
+    return {
+        sender,
+        sequenceNumber,
+        max_gas_amount,
+        gas_unit_price,
+        expiration_timestamp_secs,
     }
-    return result
+}
+
+export const metaTransaction = (response) => {
+    const {payload: {
+        id, epoch, round, proposer,
+        previous_block_votes, failed_proposer_indices
+    }} = response
+
+    return {
+        id,
+        epoch,
+        round,
+        proposer,
+        previous_block_votes,
+        failed_proposer_indices,
+    }
+}
+
+export const transaction = async (_, {hash: tr_hash}) => {
+    if (!tr_hash) throw new GraphQLYogaError(`Transaction hash not defined!`)
+
+    const response = await aptos.getTransaction(tr_hash)
+
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+
+    return {detail: response.payload}
 }

@@ -5,6 +5,7 @@ import {address} from "./address.js";
 import {transactionsCount, transaction} from "./transactions.js";
 import {balance} from "./balance.js";
 import GraphQLJSON, {GraphQLJSONObject} from "graphql-type-json";
+import {faucet} from "./faucet.js";
 
 const Query = {
     hello,
@@ -13,6 +14,10 @@ const Query = {
     address,
     transactionsCount,
     transaction
+}
+
+const Mutation = {
+    faucet
 }
 
 const Address = {
@@ -24,4 +29,4 @@ const Json = {
     JSONObject: GraphQLJSONObject,
 }
 
-export const resolvers = {Query, Address, ...Json}
+export const resolvers = {Query, Address, Mutation, ...Json}

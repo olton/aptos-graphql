@@ -1,4 +1,5 @@
 export const GRAPHQL_ENDPOINT = 'https://graphql.aptos-node.net'
+export const GRAPHQL_ENDPOINT_LOCAL = 'http://localhost:4000/graphql'
 
 async function fetchGraphQL(endpoint, query, variables = {}) {
     try {

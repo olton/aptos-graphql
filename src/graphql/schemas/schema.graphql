@@ -17,7 +17,7 @@ type Query {
 }
 
 type Mutation {
-    _empty: String
+    faucet(addr: String!, amount: Int!): Balance!
 }
 
 type Subscription {

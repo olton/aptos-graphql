@@ -1,0 +1,6 @@
+mutation faucet ($addr: String!, $amount: Int!) {
+    faucet(addr: $addr, amount: $amount){
+        balance
+        coin
+    }
+}

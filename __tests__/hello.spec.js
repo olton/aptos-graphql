@@ -1,5 +1,5 @@
-import fetchGraphQL from "./fetcher/fetcher.js";
-import {GRAPHQL_ENDPOINT} from "./fetcher/fetcher.js";
+import fetchGraphQL from "../src/graphql/fetcher/fetcher.js";
+import {GRAPHQL_ENDPOINT} from "../src/graphql/fetcher/fetcher.js";
 
 const query = /* GraphQL */`
     query{

@@ -39,7 +39,7 @@
         "@graphql-tools/schema": "^8.5.1",
         "@graphql-yoga/node": "^2.13.5",
         "@olton/aptos-api": "^0.2.2",
-        "@olton/aptos-indexer-api": "^0.0.3",
+        "@olton/aptos-indexer-api": "^0.0.4",
         "@olton/datetime": "^0.2.4",
         "express": "^4.18.1",
         "graphql": "^16.5.0",

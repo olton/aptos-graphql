@@ -20,4 +20,17 @@ type Transaction {
     detail: JSON
 }
 
+type Mint {
+    type: String
+    version: String
+    hash: String
+    success: Boolean
+    vm_status: String
+    gas_used: String
+    timestamp: String
+    amount: String
+    coin: String
+    detail: JSON
+}
+
 

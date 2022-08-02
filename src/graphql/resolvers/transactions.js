@@ -53,9 +53,9 @@ export const transaction = async (_, {hash: tr_hash}) => {
     }
 }
 
-export const minting = async ({address}, {limit = 25, offset = 0}) => {
+export const minting = async ({address}, {coin = "*", limit = 25, offset = 0}) => {
     if (!address) throw new GraphQLYogaError(`Address required!`)
-    const response = await indexer.minting(address, {limit, offset})
+    const response = await indexer.minting(address, coin, {limit, offset})
     if (!response.ok) throw new GraphQLYogaError(response.message)
     const result = []
 
@@ -70,6 +70,7 @@ export const minting = async ({address}, {limit = 25, offset = 0}) => {
             gas_used,
             timestamp,
             amount: tr.payload.arguments[1],
+            coin: coin === "*" ? tr.payload.function : coin,
             detail: tr
         })
     }

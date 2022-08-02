@@ -9,10 +9,12 @@ const info = (msg, ...rest) => log(msg, 'info', ...rest)
 const alert = (msg, ...rest) => log(msg, 'alert', ...rest)
 const debug = (msg, ...rest) => log(msg, 'debug', ...rest)
 const error = alert
+const logObject = (obj, space = 2) => console.log(JSON.stringify(obj, null, space))
 
 export {
     info,
     alert,
     debug,
-    error
+    error,
+    logObject
 }

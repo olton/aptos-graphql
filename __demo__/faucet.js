@@ -1,9 +1,10 @@
 import fetchGraphQL, {GRAPHQL_ENDPOINT, GRAPHQL_ENDPOINT_LOCAL} from "../src/graphql/fetcher/fetcher.js";
-import {debug} from "../src/helpers/logging.js";
+import {logObject} from "../src/helpers/logging.js";
 
 const mutation = /* GraphQL */ `
     mutation faucet ($addr: String!, $amount: Int!) {
         faucet(addr: $addr, amount: $amount){
+            address
             coin
             balance
         }
@@ -15,4 +16,4 @@ const faucet = await fetchGraphQL(GRAPHQL_ENDPOINT_LOCAL, mutation, {
     amount: 111
 })
 
-debug(faucet)
+logObject(faucet)

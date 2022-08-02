@@ -3,5 +3,9 @@ type Address {
     authentication_key: String!
     sequence_number: String!
     message: String
-    balance(coin: String!, coins: [String]): Balance
+    balance(coin: String!, coins: String = "0x1::aptos_coin::AptosCoin"): Balance
+    minting(limit: Int = 25, offset: Int = 0): [Transaction]
+    sentTransactions(limit: Int = 25, offset: Int = 0): [Transaction]
+    receivedTransactions(limit: Int = 25, offset: Int = 0): [Transaction]
+    transactions(limit: Int = 25, offset: Int = 0): [Transaction]
 }

@@ -53,9 +53,10 @@ export const transaction = async (_, {hash: tr_hash}) => {
     }
 }
 
-export const minting = async (_, {addr, limit = 25, offset = 0}) => {
-    if (!addr) throw new GraphQLYogaError(`Address required!`)
-    const response = await indexer.minting(addr, {limit, offset})
+export const minting = async ({address}, {limit = 25, offset = 0}) => {
+    console.log("kuku")
+    if (!address) throw new GraphQLYogaError(`Address required!`)
+    const response = await indexer.minting(address, {limit, offset})
     if (!response.ok) throw new GraphQLYogaError(response.message)
     const result = []
 
@@ -75,4 +76,16 @@ export const minting = async (_, {addr, limit = 25, offset = 0}) => {
     }
 
     return result
+}
+
+export const sentTransactions = async ({address}, {limit = 25, offset = 0}) => {
+
+}
+
+export const receivedTransactions = async ({address}, {limit = 25, offset = 0}) => {
+
+}
+
+export const transactions = async (root, args, context, info) => {
+
 }

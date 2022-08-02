@@ -7,6 +7,9 @@ import {balance} from "./balance.js";
 import GraphQLJSON, {GraphQLJSONObject} from "graphql-type-json";
 import {faucet} from "./faucet.js";
 import {minting} from "./transactions.js";
+import {sentTransactions} from "./transactions.js";
+import {receivedTransactions} from "./transactions.js";
+import {transactions} from "./transactions.js";
 
 const Query = {
     hello,
@@ -15,7 +18,6 @@ const Query = {
     address,
     transactionsCount,
     transaction,
-    minting
 }
 
 const Mutation = {
@@ -23,7 +25,11 @@ const Mutation = {
 }
 
 const Address = {
-    balance
+    balance,
+    minting,
+    sentTransactions,
+    receivedTransactions,
+    transactions,
 }
 
 const Json = {

@@ -14,6 +14,7 @@ type Query {
     ledger(node: String, nodes: [String]): [Ledger]
     transaction(hash: String): Transaction
     transactionsCount: TransactionsCount
+    minting(addr: String!): [Transaction]
 }
 
 type Mutation {

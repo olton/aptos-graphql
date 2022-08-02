@@ -21,42 +21,15 @@ export const transactionsCount = async () => {
         genesis_transaction: "0",
     }
 
-    for(let r of rows) {
+    if (!rows.ok) {
+        throw new GraphQLYogaError(rows.message)
+    }
+
+    for(let r of rows.payload) {
         result[r.type] = r.counter
     }
 
     return result
-}
-
-export const userTransaction = (response) => {
-    const {payload: {
-        sender, sequenceNumber,
-        max_gas_amount, gas_unit_price, expiration_timestamp_secs
-    }} = response
-
-    return {
-        sender,
-        sequenceNumber,
-        max_gas_amount,
-        gas_unit_price,
-        expiration_timestamp_secs,
-    }
-}
-
-export const metaTransaction = (response) => {
-    const {payload: {
-        id, epoch, round, proposer,
-        previous_block_votes, failed_proposer_indices
-    }} = response
-
-    return {
-        id,
-        epoch,
-        round,
-        proposer,
-        previous_block_votes,
-        failed_proposer_indices,
-    }
 }
 
 export const transaction = async (_, {hash: tr_hash}) => {
@@ -78,4 +51,28 @@ export const transaction = async (_, {hash: tr_hash}) => {
         timestamp,
         detail: response.payload
     }
+}
+
+export const minting = async (_, {addr, limit = 25, offset = 0}) => {
+    if (!addr) throw new GraphQLYogaError(`Address required!`)
+    const response = await indexer.minting(addr, {limit, offset})
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+    const result = []
+
+    for (let tr of response.payload){
+        const {type, version, hash, success, vm_status, gas_used, timestamp} = tr
+
+        result.push({
+            type,
+            version,
+            hash,
+            success,
+            vm_status,
+            gas_used,
+            timestamp,
+            detail: tr
+        })
+    }
+
+    return result
 }

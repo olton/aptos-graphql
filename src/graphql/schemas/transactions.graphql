@@ -16,6 +16,7 @@ type Transaction {
     vm_status: String
     gas_used: String
     timestamp: String
+    amount: String
     detail: JSON
 }
 

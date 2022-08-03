@@ -10,6 +10,7 @@ import {minting} from "./transactions.js";
 import {sentTransactions} from "./transactions.js";
 import {receivedTransactions} from "./transactions.js";
 import {transactions} from "./transactions.js";
+import {proposal} from "./transactions.js";
 
 const Query = {
     hello,
@@ -30,6 +31,7 @@ const Address = {
     sentTransactions,
     receivedTransactions,
     transactions,
+    proposal
 }
 
 const Json = {

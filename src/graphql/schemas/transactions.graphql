@@ -33,4 +33,16 @@ type Mint {
     detail: JSON
 }
 
+type Proposal {
+    type: String
+    version: String
+    hash: String
+    success: Boolean
+    vm_status: String
+    timestamp: String
+    id: String
+    round: Int
+    epoch: String
+    detail: JSON
+}
 

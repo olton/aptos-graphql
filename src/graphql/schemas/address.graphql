@@ -8,4 +8,5 @@ type Address {
     sentTransactions(limit: Int = 25, offset: Int = 0): [Transaction]
     receivedTransactions(limit: Int = 25, offset: Int = 0): [Transaction]
     transactions(limit: Int = 25, offset: Int = 0): [Transaction]
+    proposal(limit: Int = 25, offset: Int = 0): [Proposal]
 }

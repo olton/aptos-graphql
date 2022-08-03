@@ -78,6 +78,22 @@ export const minting = async ({address}, {coin = "*", limit = 25, offset = 0}) =
     return result
 }
 
+const getTransBody = data => {
+    const {type, version, hash, success, vm_status, gas_used, timestamp} = data
+
+    return{
+        type,
+        version,
+        hash,
+        success,
+        vm_status,
+        gas_used,
+        timestamp,
+        amount: 0,
+        detail: data
+    }
+}
+
 export const sentTransactions = async ({address}, {limit = 25, offset = 0}) => {
     if (!address) throw new GraphQLYogaError(`Address required!`)
     const response = await indexer.sentTransactions(address, {limit, offset})
@@ -85,19 +101,7 @@ export const sentTransactions = async ({address}, {limit = 25, offset = 0}) => {
     const result = []
 
     for (let tr of response.payload){
-        const {type, version, hash, success, vm_status, gas_used, timestamp} = tr
-
-        result.push({
-            type,
-            version,
-            hash,
-            success,
-            vm_status,
-            gas_used,
-            timestamp,
-            amount: 0,
-            detail: tr
-        })
+        result.push(getTransBody(tr))
     }
 
     return result
@@ -110,17 +114,30 @@ export const receivedTransactions = async ({address}, {limit = 25, offset = 0}) 
     const result = []
 
     for (let tr of response.payload){
-        const {type, version, hash, success, vm_status, gas_used, timestamp} = tr
+        result.push(getTransBody(tr))
+    }
 
+    return result
+}
+
+export const proposal = async ({address}, {limit = 25, offset = 0}) => {
+    if (!address) throw new GraphQLYogaError(`Address required!`)
+    const response = await indexer.proposalTransactions(address, {limit, offset})
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+    const result = []
+
+    for (let tr of response.payload){
+        const {type, version, hash, success, vm_status, timestamp, id, round, epoch} = tr
         result.push({
             type,
             version,
             hash,
             success,
             vm_status,
-            gas_used,
             timestamp,
-            amount: 0,
+            id,
+            round,
+            epoch,
             detail: tr
         })
     }

@@ -46,3 +46,14 @@ type Proposal {
     detail: JSON
 }
 
+type Transactions {
+    type: String
+    version: String
+    hash: String
+    success: Boolean
+    vm_status: String
+    sender: String
+    gas_used: String
+    timestamp: String
+    detail: JSON
+}

@@ -161,6 +161,27 @@ export const rounds = async ({address}) => {
     return result
 }
 
-export const transactions = async (root, args, context, info) => {
+export const transactions = async ({address}, {order = "timestamp desc", limit = 25, offset = 0}, context, info) => {
+    if (!address) throw new GraphQLYogaError(`Address required!`)
+    const response = await indexer.transactions(address, {order, limit, offset})
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+    const result = []
 
+    for(let r of response.payload){
+        const {type, version, hash, success, vm_status, sender, gas_used, timestamp} = r
+
+        result.push({
+            type,
+            version,
+            hash,
+            success,
+            vm_status,
+            sender,
+            gas_used,
+            timestamp,
+            detail: r
+        })
+    }
+
+    return result
 }

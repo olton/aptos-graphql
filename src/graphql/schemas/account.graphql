@@ -1,0 +1,6 @@
+type Account {
+    address: String!
+    publicKey: String!
+    authKey: String!
+    privateKey: String!
+}

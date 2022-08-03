@@ -18,6 +18,7 @@ type Query {
 
 type Mutation {
     faucet(addr: String!, amount: Int!): AddressBalance!
+    createAccount: Account
 }
 
 type Subscription {

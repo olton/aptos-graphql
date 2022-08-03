@@ -13,6 +13,7 @@ import {transactions} from "./transactions.js";
 import {proposal} from "./transactions.js";
 import {rounds} from "./transactions.js";
 import {createAccount, account} from "./account.js";
+import {sendCoins} from "./coins.js";
 
 const Query = {
     hello,
@@ -27,6 +28,7 @@ const Query = {
 const Mutation = {
     faucet,
     createAccount,
+    sendCoins
 }
 
 const Address = {

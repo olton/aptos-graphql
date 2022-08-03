@@ -1,0 +1,4 @@
+type Rounds {
+    epoch: String
+    rounds: String
+}

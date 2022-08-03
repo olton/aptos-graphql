@@ -145,6 +145,22 @@ export const proposal = async ({address}, {limit = 25, offset = 0}) => {
     return result
 }
 
+export const rounds = async ({address}) => {
+    if (!address) throw new GraphQLYogaError(`Address required!`)
+    const response = await indexer.roundsPerEpoch(address)
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+    const result = []
+
+    for(let r of response.payload){
+        result.push({
+            epoch: r.epoch,
+            rounds: r.rounds
+        })
+    }
+
+    return result
+}
+
 export const transactions = async (root, args, context, info) => {
 
 }

@@ -8,9 +8,7 @@ export const sendCoins = async (_, {privateKey, publicKey, receiver, amount, coi
     if (!coin) throw new GraphQLYogaError(`Coin structure required!`)
 
     const acc = new Account(privateKey, publicKey)
-    console.log(receiver, amount, coin)
     const response = await aptos.sendCoins(acc, receiver, amount, coin)
-    console.log(response)
 
     if (!response.ok) throw new GraphQLYogaError(`Operation failed, because ${response.message}`)
 
@@ -18,9 +16,17 @@ export const sendCoins = async (_, {privateKey, publicKey, receiver, amount, coi
 
     if (!balanceResponse.ok) throw new GraphQLYogaError(`Balance not retrieved, because ${response.message}`)
 
+    const payload = response.payload
+    const gas = {
+        gas_used: payload.gas_used,
+        unit_price: payload.gas_unit_price,
+        max_gas: payload.max_gas_amount
+    }
     return {
         coin: balanceResponse.payload.coin,
         balance: balanceResponse.payload.balance,
-        message: "OK"
+        message: "OK",
+        amount: payload.payload.arguments[1],
+        gas
     }
 }

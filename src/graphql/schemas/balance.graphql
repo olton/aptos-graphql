@@ -10,3 +10,17 @@ type AddressBalance {
     balance: String!
     message: String
 }
+
+type OperationBalance {
+    coin: String
+    balance: String
+    address: String
+    amount: String
+    gas: Gas
+}
+
+type Gas {
+    gas_used: String
+    unit_price: String
+    max_gas: String
+}

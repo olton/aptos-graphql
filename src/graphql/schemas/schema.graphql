@@ -6,29 +6,3 @@ schema {
     mutation: Mutation
     subscription: Subscription
 }
-
-type Query {
-    health(node: String, nodes: [String]): [Health]
-    hello: String!
-    ledger(node: String, nodes: [String]): [Ledger]
-    transaction(hash: String): Transaction
-    transactionsCount: TransactionsCount
-    address(addr: [String]): [Address]
-    account(pk: String, addr: String): Address
-}
-
-type Mutation {
-    faucet(addr: String!, amount: Int!): AddressBalance!
-    createAccount: Account,
-    sendCoins(
-        privateKey: String!,
-        publicKey: String,
-        receiver: String!,
-        amount: String!,
-        coin: String! = "0x1::aptos_coin::AptosCoin"
-    ): OperationBalance
-}
-
-type Subscription {
-    _empty: String
-}

@@ -1,0 +1,11 @@
+type Mutation {
+    faucet(addr: String!, amount: Int!): AddressBalance!
+    createAccount: Account,
+    sendCoins(
+        privateKey: String!,
+        publicKey: String,
+        receiver: String!,
+        amount: String!,
+        coin: String! = "0x1::aptos_coin::AptosCoin"
+    ): OperationBalance
+}

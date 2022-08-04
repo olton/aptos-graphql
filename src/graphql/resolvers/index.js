@@ -1,19 +1,19 @@
-import {hello} from "./hello.js";
-import {health} from "./health.js";
-import {ledger} from "./ledger.js";
-import {address} from "./address.js";
-import {transactionsCount, transaction} from "./transactions.js";
-import {balance} from "./balance.js";
+import {hello} from "./components/hello.js";
+import {health} from "./components/health.js";
+import {ledger} from "./components/ledger.js";
+import {address} from "./components/address.js";
+import {transactionsCount, transaction} from "./components/transactions.js";
+import {balance} from "./components/balance.js";
 import GraphQLJSON, {GraphQLJSONObject} from "graphql-type-json";
-import {faucet} from "./faucet.js";
-import {minting} from "./transactions.js";
-import {sentTransactions} from "./transactions.js";
-import {receivedTransactions} from "./transactions.js";
-import {transactions} from "./transactions.js";
-import {proposal} from "./transactions.js";
-import {rounds} from "./transactions.js";
-import {createAccount, account} from "./account.js";
-import {sendCoins} from "./coins.js";
+import {faucet} from "./components/faucet.js";
+import {minting} from "./components/transactions.js";
+import {sentTransactions} from "./components/transactions.js";
+import {receivedTransactions} from "./components/transactions.js";
+import {transactions} from "./components/transactions.js";
+import {proposal} from "./components/transactions.js";
+import {rounds} from "./components/transactions.js";
+import {createAccount, account} from "./components/account.js";
+import {sendCoins} from "./components/coins.js";
 
 const Query = {
     hello,

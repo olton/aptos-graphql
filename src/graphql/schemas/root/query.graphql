@@ -1,0 +1,9 @@
+type Query {
+    health(node: String, nodes: [String]): [Health]
+    hello: String!
+    ledger(node: String, nodes: [String]): [Ledger]
+    transaction(hash: String): Transaction
+    transactionsCount: TransactionsCount
+    address(addr: [String]): [Address]
+    account(pk: String, addr: String): Address
+}

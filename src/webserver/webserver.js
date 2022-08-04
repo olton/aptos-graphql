@@ -3,23 +3,16 @@ import https from "https";
 import fs from "fs";
 import path from "path";
 import express from "express"
-import {createServer} from "@graphql-yoga/node";
+import {createServer } from "@graphql-yoga/node";
 import {info} from "../helpers/logging.js";
 import {schema} from "../graphql/schema.js";
+import { WebSocketServer } from 'ws'
+import { useServer } from 'graphql-ws/lib/use/ws'
 
 const app = express()
 
 const route = () => {
-    app.use(express.json())
-    app.use(express.urlencoded({ extended: true }))
 
-    app.locals.pretty = true
-    const yoga = createServer({
-        schema,
-        graphiql: true,
-    })
-
-    app.use('/graphql', yoga);
 }
 
 export const runWebServer = () => {
@@ -51,5 +44,49 @@ export const runWebServer = () => {
         })
     }
 
-    //websocket(ssl ? httpsWebserver : httpWebserver)
+    app.use(express.json())
+    app.use(express.urlencoded({ extended: true }))
+
+    app.locals.pretty = true
+    const yoga = createServer({
+        schema,
+        graphiql: {
+            subscriptionsProtocol: 'WS',
+        },
+    })
+
+    app.use('/graphql', yoga);
+
+    const wsServer = new WebSocketServer({
+        server: useSSL ? httpsWebserver : httpWebserver,
+        path: yoga.getAddressInfo().endpoint,
+    })
+
+    useServer(
+        {
+            execute: (args) => args.rootValue.execute(args),
+            subscribe: (args) => args.rootValue.subscribe(args),
+            onSubscribe: async (ctx, msg) => {
+                const { schema, execute, subscribe, contextFactory, parse, validate } =
+                    yoga.getEnveloped(ctx)
+
+                const args = {
+                    schema,
+                    operationName: msg.payload.operationName,
+                    document: parse(msg.payload.query),
+                    variableValues: msg.payload.variables,
+                    contextValue: await contextFactory(),
+                    rootValue: {
+                        execute,
+                        subscribe,
+                    },
+                }
+
+                const errors = validate(args.schema, args.document)
+                if (errors.length) return errors
+                return args
+            },
+        },
+        wsServer,
+    )
 }

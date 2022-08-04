@@ -12,3 +12,11 @@ type Ledger {
     node: String
     state: LedgerState
 }
+
+type Version {
+    chain_id: String!
+    epoch: String!
+    version: String!
+    timestamp: String!
+    role: String!
+}

@@ -3,7 +3,6 @@ import { fileURLToPath } from 'url'
 import fs from "fs"
 import {info, error} from "./helpers/logging.js"
 import {runWebServer} from "./webserver/webserver.js";
-import {broadcast} from "./webserver/websocket.js";
 import {Indexer} from "@olton/aptos-indexer-api";
 import {Aptos} from "@olton/aptos-api";
 
@@ -20,9 +19,9 @@ globalThis.appVersion = pkg.version
 globalThis.appName = `Aptos GraphQL v${pkg.version}`
 globalThis.indexer = null
 globalThis.aptos = null
+globalThis.epoch = -1
 
 const runProcesses = () => {
-
     info(`Aptos GraphQL Server Background processes started!`)
 }
 

@@ -14,6 +14,7 @@ import {proposal} from "./components/transactions.js";
 import {rounds} from "./components/transactions.js";
 import {createAccount, account} from "./components/account.js";
 import {sendCoins} from "./components/coins.js";
+import {version} from "./components/version.js";
 
 const Query = {
     hello,
@@ -41,9 +42,13 @@ const Address = {
     rounds
 }
 
+const Subscription = {
+    version
+}
+
 const Json = {
     JSON: GraphQLJSON,
     JSONObject: GraphQLJSONObject,
 }
 
-export const resolvers = {Query, Address, Mutation, ...Json}
+export const resolvers = {Query, Address, Mutation, Subscription, ...Json}

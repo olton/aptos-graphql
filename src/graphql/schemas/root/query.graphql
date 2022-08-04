@@ -1,6 +1,6 @@
 type Query {
-    health(node: String, nodes: [String]): [Health]
     hello: String!
+    health(node: String, nodes: [String]): [Health]
     ledger(node: String, nodes: [String]): [Ledger]
     transaction(hash: String): Transaction
     transactionsCount: TransactionsCount

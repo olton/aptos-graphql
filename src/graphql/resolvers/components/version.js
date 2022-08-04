@@ -1,17 +1,17 @@
 export const version = {
     subscribe: async function* () {
         while (true) {
-            const response = await aptos.getLedger()
+            const ledger = globalThis.ledger
             yield {
                 version: {
-                    chain_id: response.payload.chain_id,
-                    epoch: response.payload.epoch,
-                    version: response.payload.ledger_version,
-                    role: response.payload.node_role,
-                    timestamp: response.payload.ledger_timestamp,
+                    chain_id: ledger.chain_id,
+                    epoch: ledger.epoch,
+                    version: ledger.ledger_version,
+                    role: ledger.node_role,
+                    timestamp: ledger.ledger_timestamp,
                 }
             }
-            await new Promise((resolve) => setTimeout(resolve, 10000))
+            await new Promise((resolve) => setTimeout(resolve, 1000))
         }
     },
 }

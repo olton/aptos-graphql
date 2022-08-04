@@ -5,6 +5,7 @@ import {info, error} from "./helpers/logging.js"
 import {runWebServer} from "./webserver/webserver.js";
 import {Indexer} from "@olton/aptos-indexer-api";
 import {Aptos} from "@olton/aptos-api";
+import {cacheLedger} from "./webserver/processor.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const readJson = (p) => JSON.parse(fs.readFileSync(p, 'utf-8'))
@@ -19,9 +20,17 @@ globalThis.appVersion = pkg.version
 globalThis.appName = `Aptos GraphQL v${pkg.version}`
 globalThis.indexer = null
 globalThis.aptos = null
-globalThis.epoch = -1
+globalThis.ledger = {
+    chain_id: 0,
+    epoch: 0,
+    ledger_version: 0,
+    oldest_ledger_version: 0,
+    ledger_timestamp: 0,
+    node_role: "unknown"
+}
 
 const runProcesses = () => {
+    setImmediate(cacheLedger)
     info(`Aptos GraphQL Server Background processes started!`)
 }
 

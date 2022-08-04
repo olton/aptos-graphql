@@ -11,38 +11,17 @@ import { useServer } from 'graphql-ws/lib/use/ws'
 
 const app = express()
 
-const route = () => {
-
-}
-
 export const runWebServer = () => {
-    const {host, port, ssl} = config.graphql
-    const {cert, key} = ssl
-    const useSSL = ssl && (cert && key)
-    let httpWebserver, httpsWebserver
+    const {host, port} = config.graphql
+    let httpWebserver
 
-    if (useSSL) {
-        httpsWebserver = https.createServer({
-            key: fs.readFileSync(key[0] === "." ? path.resolve(rootPath, key) : key),
-            cert: fs.readFileSync(cert[0] === "." ? path.resolve(rootPath, cert) : cert)
-        }, app)
-    } else {
-        httpWebserver = http.createServer({}, app)
-    }
+    httpWebserver = http.createServer({}, app)
 
-    route()
+    const runInfo = `Aptos GraphQL Server running on http://${host}:${port}/graphql`
 
-    const runInfo = `Aptos GraphQL Server running on ${useSSL ? "HTTPS" : "HTTP"} on port ${port}`
-
-    if (useSSL) {
-        httpsWebserver.listen(port, () => {
-            info(runInfo)
-        })
-    } else {
-        httpWebserver.listen(port, () => {
-            info(runInfo)
-        })
-    }
+    httpWebserver.listen(port, () => {
+        info(runInfo)
+    })
 
     app.use(express.json())
     app.use(express.urlencoded({ extended: true }))
@@ -58,7 +37,7 @@ export const runWebServer = () => {
     app.use('/graphql', yoga);
 
     const wsServer = new WebSocketServer({
-        server: useSSL ? httpsWebserver : httpWebserver,
+        server: httpWebserver,
         path: yoga.getAddressInfo().endpoint,
     })
 

@@ -10,7 +10,7 @@ export const events = async (_, {key}) => {
         result.push({
             key: r.key,
             sequenceNumber: r.sequence_number,
-            typename: r.type,
+            type: r.type,
             data: r.data
         })
     }

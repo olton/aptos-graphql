@@ -5,18 +5,13 @@ import {transactionsCount, transaction} from "./components/transactions.js";
 import {balance} from "./components/balance.js";
 import GraphQLJSON, {GraphQLJSONObject} from "graphql-type-json";
 import {faucet} from "./components/faucet.js";
-import {minting} from "./components/transactions.js";
-import {sentTransactions} from "./components/transactions.js";
-import {receivedTransactions} from "./components/transactions.js";
-import {transactions} from "./components/transactions.js";
-import {proposal} from "./components/transactions.js";
-import {rounds} from "./components/transactions.js";
 import {createAccount, account} from "./components/account.js";
 import {sendCoins} from "./components/coins.js";
 import {version} from "./components/version.js";
 import {resources, resource, modules, module} from "./components/account.js";
-import {events as eventsByHandle} from "./components/account.js";
+import {events as eventsByHandle, minting, sentTransactions, receivedTransactions, transactions as accountTransactions, proposal, rounds} from "./components/account.js";
 import {events} from "./components/events.js";
+import {transactions} from "./components/transactions.js";
 
 const Query = {
     hello,
@@ -25,7 +20,8 @@ const Query = {
     account,
     transactionsCount,
     transaction,
-    events
+    transactions,
+    events,
 }
 
 const Mutation = {
@@ -39,7 +35,7 @@ const Account = {
     minting,
     sentTransactions,
     receivedTransactions,
-    transactions,
+    transactions: accountTransactions,
     proposal,
     rounds,
     resources,

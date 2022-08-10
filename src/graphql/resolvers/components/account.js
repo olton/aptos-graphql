@@ -36,7 +36,7 @@ export const resources = async ({address}) => {
     if (!response.ok) throw new GraphQLYogaError(response.message)
     for (let r of response.payload) {
         result.push({
-            typename: r.type,
+            type: r.type,
             data: r.data
         })
     }
@@ -50,7 +50,7 @@ export const resource = async ({address}, {res}) => {
     if (!response.ok) throw new GraphQLYogaError(response.message)
 
     return {
-        typename: response.payload.type,
+        type: response.payload.type,
         data: response.payload.data
     }
 }
@@ -97,5 +97,138 @@ export const events = async ({address}, {handle, field}) => {
             data: r.data
         })
     }
+    return result
+}
+
+export const minting = async ({address}, {coin = "*", limit = 25, offset = 0}) => {
+    if (!address) throw new GraphQLYogaError(`Address required!`)
+    const response = await indexer.minting(address, coin, {limit, offset})
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+    const result = []
+
+    for (let tr of response.payload){
+        const {type, version, hash, success, vm_status, gas_used, timestamp} = tr
+        result.push({
+            type,
+            version,
+            hash,
+            success,
+            vm_status,
+            gas_used,
+            timestamp,
+            amount: tr.payload.arguments[1],
+            coin: coin === "*" ? tr.payload.function : coin,
+            detail: tr
+        })
+    }
+
+    return result
+}
+
+const getTransBody = data => {
+    const {type, version, hash, success, vm_status, gas_used, timestamp} = data
+
+    return{
+        type,
+        version,
+        hash,
+        success,
+        vm_status,
+        gas_used,
+        timestamp,
+        amount: 0,
+        detail: data
+    }
+}
+
+export const sentTransactions = async ({address}, {limit = 25, offset = 0}) => {
+    if (!address) throw new GraphQLYogaError(`Address required!`)
+    const response = await indexer.sentTransactions(address, {limit, offset})
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+    const result = []
+
+    for (let tr of response.payload){
+        result.push(getTransBody(tr))
+    }
+
+    return result
+}
+
+export const receivedTransactions = async ({address}, {limit = 25, offset = 0}) => {
+    if (!address) throw new GraphQLYogaError(`Address required!`)
+    const response = await indexer.receivedTransactions(address, {limit, offset})
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+    const result = []
+
+    for (let tr of response.payload){
+        result.push(getTransBody(tr))
+    }
+
+    return result
+}
+
+export const proposal = async ({address}, {limit = 25, offset = 0}) => {
+    if (!address) throw new GraphQLYogaError(`Address required!`)
+    const response = await indexer.proposalTransactions(address, {limit, offset})
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+    const result = []
+
+    for (let tr of response.payload){
+        const {type, version, hash, success, vm_status, timestamp, id, round, epoch} = tr
+        result.push({
+            type,
+            version,
+            hash,
+            success,
+            vm_status,
+            timestamp,
+            id,
+            round,
+            epoch,
+            detail: tr
+        })
+    }
+
+    return result
+}
+
+export const rounds = async ({address}) => {
+    if (!address) throw new GraphQLYogaError(`Address required!`)
+    const response = await indexer.roundsPerEpoch(address)
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+    const result = []
+
+    for(let r of response.payload){
+        result.push({
+            epoch: r.epoch,
+            rounds: r.rounds
+        })
+    }
+
+    return result
+}
+
+export const transactions = async ({address}, {order = "timestamp desc", limit = 25, offset = 0}, context, info) => {
+    if (!address) throw new GraphQLYogaError(`Address required!`)
+    const response = await indexer.transactions(address, {order, limit, offset})
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+    const result = []
+
+    for(let r of response.payload){
+        const {type, version, hash, success, vm_status, sender, gas_used, timestamp} = r
+
+        result.push({
+            type,
+            version,
+            hash,
+            success,
+            vm_status,
+            sender,
+            gas_used,
+            timestamp,
+            detail: r
+        })
+    }
+
     return result
 }

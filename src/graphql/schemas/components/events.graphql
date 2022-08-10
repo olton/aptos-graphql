@@ -1,6 +1,6 @@
 type Event {
     key: String
     sequenceNumber: String
-    typename: String
+    type: String
     data: JSON
 }

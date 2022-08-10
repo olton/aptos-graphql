@@ -1,4 +1,4 @@
 type AccountResource {
-    typename: String
+    type: String
     data: JSON
 }

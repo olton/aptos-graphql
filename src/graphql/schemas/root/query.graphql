@@ -2,7 +2,8 @@ type Query {
     hello: String!
     health(node: String, nodes: [String]): [Health]
     ledger(node: String, nodes: [String]): [Ledger]
-    transaction(hash: String): Transaction
+    transaction(hash: String, version: String): Transaction
+    transactions(limit: Int = 25, start: Int = 0): [Transaction]
     transactionsCount: TransactionsCount
     account(addr: [String]): [Account]
     events(key: String): [Event]

@@ -57,7 +57,7 @@ export const transaction = async (_, {hash: tr_hash, ver}) => {
 }
 
 export const transactions = async (_, {limit, start}) => {
-    const response = aptos.getTransactions({limit, start})
+    const response = await aptos.getTransactions({limit, start})
 
     if (!response.ok) throw new GraphQLYogaError(response.message)
 

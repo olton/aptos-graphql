@@ -15,6 +15,8 @@ import {createAccount, account} from "./components/account.js";
 import {sendCoins} from "./components/coins.js";
 import {version} from "./components/version.js";
 import {resources, resource, modules, module} from "./components/account.js";
+import {events as eventsByHandle} from "./components/account.js";
+import {events} from "./components/events.js";
 
 const Query = {
     hello,
@@ -23,6 +25,7 @@ const Query = {
     account,
     transactionsCount,
     transaction,
+    events
 }
 
 const Mutation = {
@@ -43,6 +46,7 @@ const Account = {
     resource,
     modules,
     module,
+    events: eventsByHandle
 }
 
 const Subscription = {

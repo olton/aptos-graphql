@@ -81,3 +81,21 @@ export const module = async ({address}, {mod}) => {
     }
 }
 
+export const events = async ({address}, {handle, field}) => {
+    if (!address) throw new GraphQLYogaError(`Address not defined!`)
+    if (!handle) throw new GraphQLYogaError(`Event handle not defined!`)
+    if (!field) throw new GraphQLYogaError(`Field name not defined!`)
+
+    const result = []
+    const response = aptos.getEventsByHandle(address, handle, field)
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+    for(let r of response.payload) {
+        result.push({
+            key: r.key,
+            sequenceNumber: r.sequence_number,
+            typename: r.type,
+            data: r.data
+        })
+    }
+    return result
+}

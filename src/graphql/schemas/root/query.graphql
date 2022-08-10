@@ -5,4 +5,5 @@ type Query {
     transaction(hash: String): Transaction
     transactionsCount: TransactionsCount
     account(addr: [String]): [Account]
+    events(key: String): [Event]
 }

@@ -1,7 +1,6 @@
 import {hello} from "./components/hello.js";
 import {health} from "./components/health.js";
 import {ledger} from "./components/ledger.js";
-import {address} from "./components/address.js";
 import {transactionsCount, transaction} from "./components/transactions.js";
 import {balance} from "./components/balance.js";
 import GraphQLJSON, {GraphQLJSONObject} from "graphql-type-json";
@@ -15,12 +14,12 @@ import {rounds} from "./components/transactions.js";
 import {createAccount, account} from "./components/account.js";
 import {sendCoins} from "./components/coins.js";
 import {version} from "./components/version.js";
+import {resources} from "./components/account.js";
 
 const Query = {
     hello,
     health,
     ledger,
-    address,
     account,
     transactionsCount,
     transaction,
@@ -32,14 +31,15 @@ const Mutation = {
     sendCoins
 }
 
-const Address = {
+const Account = {
     balance,
     minting,
     sentTransactions,
     receivedTransactions,
     transactions,
     proposal,
-    rounds
+    rounds,
+    resources
 }
 
 const Subscription = {
@@ -51,4 +51,4 @@ const Json = {
     JSONObject: GraphQLJSONObject,
 }
 
-export const resolvers = {Query, Address, Mutation, Subscription, ...Json}
+export const resolvers = {Query, Account, Mutation, Subscription, ...Json}

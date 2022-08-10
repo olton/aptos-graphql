@@ -1,6 +1,6 @@
 type Mutation {
-    faucet(addr: String!, amount: Int!): AddressBalance!
-    createAccount: Account,
+    faucet(addr: String!, amount: Int!): AccountBalance!
+    createAccount: Keys,
     sendCoins(
         privateKey: String!,
         publicKey: String,

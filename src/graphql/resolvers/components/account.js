@@ -1,6 +1,5 @@
-import {Account, Aptos} from "@olton/aptos-api";
+import {Account} from "@olton/aptos-api";
 import {GraphQLYogaError} from "@graphql-yoga/node";
-import {address} from "./address.js";
 
 export const createAccount = () => {
     const acc = new Account()
@@ -12,14 +11,34 @@ export const createAccount = () => {
     }
 }
 
-export const account = async (_, {pk, addr}) => {
-    if (!pk) throw new GraphQLYogaError(`PrivateKey required!`)
-    const acc = new Account(pk, addr)
-    const address = acc.address()
-    const response = await aptos.getAccount(address)
-    return {
-        address,
-        authentication_key: response.ok ? response.payload.authentication_key : "unknown",
-        sequence_number: response.ok ? response.payload.sequence_number : -1,
+export const account = async (_, {addr}) => {
+    if (!addr || addr === {} || addr.length === 0)
+        throw new GraphQLYogaError(`Address not defined!`)
+
+    const result = []
+
+    for(let a of addr) {
+        const response = await aptos.getAccount(a)
+        result.push({
+            address: a,
+            authentication_key: response.ok ? response.payload.authentication_key : "unknown",
+            sequence_number: response.ok ? response.payload.sequence_number : -1,
+        })
     }
+    return result
+}
+
+export const resources = async ({address}) => {
+    if (!address) throw new GraphQLYogaError(`Address not defined!`)
+
+    const result = []
+    const response = await aptos.getAccountResources(address)
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+    for (let r of response.payload) {
+        result.push({
+            typename: r.type,
+            data: r.data
+        })
+    }
+    return result
 }

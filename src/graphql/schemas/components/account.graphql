@@ -10,4 +10,5 @@ type Account {
     proposal(limit: Int = 25, offset: Int = 0): [Proposal]
     rounds: [Rounds]
     resources: [AccountResource]
+    resource(res: String!): AccountResource
 }

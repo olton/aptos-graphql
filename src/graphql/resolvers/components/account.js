@@ -42,3 +42,16 @@ export const resources = async ({address}) => {
     }
     return result
 }
+
+export const resource = async ({address}, {res}) => {
+    if (!address) throw new GraphQLYogaError(`Address not defined!`)
+
+    const response = await aptos.getAccountResource(address, res)
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+
+    return {
+        typename: response.payload.type,
+        data: response.payload.data
+    }
+}
+

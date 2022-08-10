@@ -29,7 +29,7 @@ export const transactionsCount = async () => {
     return result
 }
 
-export const transaction = async (_, {hash: tr_hash, version}) => {
+export const transaction = async (_, {hash: tr_hash, ver}) => {
     if (!tr_hash && (!version && version !== 0)) throw new GraphQLYogaError(`Transaction hash or version not defined!`)
 
     let response
@@ -37,7 +37,7 @@ export const transaction = async (_, {hash: tr_hash, version}) => {
     if (tr_hash) {
         response = await aptos.getTransactionByHash(tr_hash)
     } else {
-        response = await aptos.getTransactionByVersion(version)
+        response = await aptos.getTransactionByVersion(ver)
     }
 
     if (!response.ok) throw new GraphQLYogaError(response.message)

@@ -1,9 +1,12 @@
+//rename to graphql.conf
 {
   "aptos": {
     "api": "https://fullnode.devnet.aptoslabs.com"
   },
   "indexer": {
-    "host": "localhost:5432",
+    "proto": "http",
+    "host": "aptos-node.net",
+    "port": 5432,
     "user": "user",
     "password": "password",
     "database": "schema"

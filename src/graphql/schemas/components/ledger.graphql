@@ -5,7 +5,6 @@ type LedgerState {
     oldest_ledger_version: String
     ledger_timestamp: String!
     node_role: String!
-    message: String
 }
 
 type Ledger {

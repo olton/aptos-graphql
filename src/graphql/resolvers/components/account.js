@@ -21,6 +21,5 @@ export const account = async (_, {pk, addr}) => {
         address,
         authentication_key: response.ok ? response.payload.authentication_key : "unknown",
         sequence_number: response.ok ? response.payload.sequence_number : -1,
-        message: response.ok ? "OK" : response.message
     }
 }

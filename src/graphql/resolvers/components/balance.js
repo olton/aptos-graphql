@@ -8,7 +8,6 @@ export const balance = async ({address}, {coin}, context, info) => {
     const response = await aptos.getAccountBalance(address, coin)
     return {
         coin: response.ok ? response.payload.coin : "unknown",
-        balance: response.ok ? response.payload.balance : -1,
-        message: response.ok ? "OK" : response.message
+        balance: response.ok ? response.payload.balance : -1
     }
 }

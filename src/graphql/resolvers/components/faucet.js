@@ -13,6 +13,5 @@ export const faucet = async (_, {addr, amount}) => {
         address: addr,
         coin: balance_response.ok ? balance_response.payload.coin : "unknown",
         balance: balance_response.ok ? balance_response.payload.balance : -1,
-        message: balance_response.ok ? "OK" : balance_response.message
     }
 }

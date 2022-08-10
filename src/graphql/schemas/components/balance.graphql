@@ -1,14 +1,12 @@
 type Balance {
     coin: String!
     balance: String!
-    message: String
 }
 
 type AddressBalance {
     address: String!
     coin: String!
     balance: String!
-    message: String
 }
 
 type OperationBalance {

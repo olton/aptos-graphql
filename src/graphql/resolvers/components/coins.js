@@ -25,7 +25,6 @@ export const sendCoins = async (_, {privateKey, publicKey, receiver, amount, coi
     return {
         coin: balanceResponse.payload.coin,
         balance: balanceResponse.payload.balance,
-        message: "OK",
         amount: payload.payload.arguments[1],
         gas
     }

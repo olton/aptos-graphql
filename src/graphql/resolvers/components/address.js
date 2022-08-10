@@ -14,7 +14,6 @@ export const address = async (_, {addr}) => {
             address: a,
             authentication_key: response.ok ? response.payload.authentication_key : "unknown",
             sequence_number: response.ok ? response.payload.sequence_number : -1,
-            message: response.ok ? "OK" : response.message
         })
     }
     return result

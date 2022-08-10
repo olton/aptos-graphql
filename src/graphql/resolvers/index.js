@@ -14,7 +14,7 @@ import {rounds} from "./components/transactions.js";
 import {createAccount, account} from "./components/account.js";
 import {sendCoins} from "./components/coins.js";
 import {version} from "./components/version.js";
-import {resources, resource} from "./components/account.js";
+import {resources, resource, modules, module} from "./components/account.js";
 
 const Query = {
     hello,
@@ -41,6 +41,8 @@ const Account = {
     rounds,
     resources,
     resource,
+    modules,
+    module,
 }
 
 const Subscription = {

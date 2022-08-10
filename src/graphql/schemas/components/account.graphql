@@ -11,4 +11,6 @@ type Account {
     rounds: [Rounds]
     resources: [AccountResource]
     resource(res: String!): AccountResource
+    modules: [Module]
+    module(mod: String!): Module
 }

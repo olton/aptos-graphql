@@ -54,4 +54,30 @@ export const resource = async ({address}, {res}) => {
         data: response.payload.data
     }
 }
+export const modules = async ({address}) => {
+    if (!address) throw new GraphQLYogaError(`Address not defined!`)
+
+    const result = []
+    const response = await aptos.getAccountModules(address)
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+    for (let r of response.payload) {
+        result.push({
+            bytecode: r.bytecode,
+            abi: r.abi
+        })
+    }
+    return result
+}
+
+export const module = async ({address}, {mod}) => {
+    if (!address) throw new GraphQLYogaError(`Address not defined!`)
+
+    const response = await aptos.getAccountModule(address, mod)
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+
+    return {
+        bytecode: response.payload.bytecode,
+        abi: response.payload.abi
+    }
+}
 

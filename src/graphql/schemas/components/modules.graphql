@@ -1,0 +1,4 @@
+type Module {
+    bytecode: String
+    abi: JSON
+}

@@ -3,7 +3,7 @@ type Query {
     health(node: String, nodes: [String]): [Health]
     ledger(node: String, nodes: [String]): [Ledger]
     transaction(hash: String, ver: String): Transaction
-    transactions(limit: Int = 25, start: Int = 0): [Transaction]
+    transactions(limit: Int = 25, start: Int = 0): [Transactions]
     transactionsCount: TransactionsCount
     account(addr: [String]): [Account]
     events(key: String): [Event]

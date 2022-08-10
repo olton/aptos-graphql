@@ -3,21 +3,15 @@ import {logObject} from "../../src/helpers/logging.js";
 
 const query = /* GraphQL */ `
     query {
-        address(addr: "0x310dfd70948d6b22c5e6a573719e21f0437d4fa4986a106e439a1f9d44dcae0c"){
-            rounds{
-                epoch
-                rounds
-            }
-            proposal{
+        account(addr: "0x310dfd70948d6b22c5e6a573719e21f0437d4fa4986a106e439a1f9d44dcae0c"){
+            receivedTransactions {
                 type
                 version
                 hash
                 success
                 vm_status
+                gas_used
                 timestamp
-                id
-                round
-                epoch
                 detail
             }
         }

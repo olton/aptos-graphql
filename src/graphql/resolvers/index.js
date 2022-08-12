@@ -12,6 +12,8 @@ import {resources, resource, modules, module} from "./components/account.js";
 import {events as eventsByHandle, minting, sentTransactions, receivedTransactions, transactions as accountTransactions, proposal, rounds} from "./components/account.js";
 import {events} from "./components/events.js";
 import {transactions} from "./components/transactions.js";
+import {tableItem} from "./components/tables.js";
+import {collections, createCollection} from "./components/nft.js";
 
 const Query = {
     hello,
@@ -22,12 +24,14 @@ const Query = {
     transaction,
     transactions,
     events,
+    tableItem
 }
 
 const Mutation = {
     faucet,
     createAccount,
-    sendCoins
+    sendCoins,
+    createCollection
 }
 
 const Account = {
@@ -42,7 +46,8 @@ const Account = {
     resource,
     modules,
     module,
-    events: eventsByHandle
+    events: eventsByHandle,
+    collections
 }
 
 const Subscription = {

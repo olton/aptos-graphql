@@ -1,0 +1,8 @@
+type Table {
+    _empty: String
+}
+
+type TableItem {
+    _empty: String
+}
+

@@ -1,0 +1,11 @@
+type Collection {
+    version: String!
+    key: String!
+    type: String!
+    number: Int!
+    name: String!
+    desc: String!
+    uri: String!
+    creator: String!
+    max: Int
+}

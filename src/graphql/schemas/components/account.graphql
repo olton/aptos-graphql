@@ -13,5 +13,6 @@ type Account {
     resource(res: String!): AccountResource
     modules: [Module]
     module(mod: String!): Module
-    events(handle: String, field: String): [Event]
+    events(handle: String, field: String): [Event],
+    collections(name: String): Transactions
 }

@@ -8,4 +8,12 @@ type Mutation {
         amount: String!,
         coin: String! = "0x1::aptos_coin::AptosCoin"
     ): OperationBalance
+    createCollection(
+        pk: String!,
+        pb: String,
+        name: String!,
+        desc: String!,
+        uri: String!,
+        max: Int = 0
+    ): Transactions
 }

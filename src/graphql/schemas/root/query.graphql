@@ -6,5 +6,6 @@ type Query {
     transactions(limit: Int = 25, start: Int = 0): [Transactions]
     transactionsCount: TransactionsCount
     account(addr: [String]): [Account]
-    events(key: String): [Event]
+    events(key: String): [Event],
+    tableItem(handle: String): TableItem
 }

@@ -16,4 +16,14 @@ type Mutation {
         uri: String!,
         max: Int = 0
     ): Transactions
+    createToken(
+        pk: String!,
+        pb: String,
+        collection: String!,
+        name: String!,
+        desc: String!,
+        uri: String!,
+        supply: Int! = 0
+        max: Int! = 0
+    ): Transactions
 }

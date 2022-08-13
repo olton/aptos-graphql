@@ -9,3 +9,7 @@ type Collection {
     creator: String!
     max: Int
 }
+
+type Token {
+    _empty: String
+}

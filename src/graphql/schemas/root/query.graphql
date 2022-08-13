@@ -7,5 +7,7 @@ type Query {
     transactionsCount: TransactionsCount
     account(addr: [String]): [Account]
     events(key: String): [Event],
-    tableItem(handle: String): TableItem
+    tableItem(handle: String): TableItem,
+    tokenBalance(owner: String!, creator: String!, collection: String!, name: String!): TokenBalance
+    tokenData(owner: String!, creator: String!, collection: String!, name: String!): TokenData
 }

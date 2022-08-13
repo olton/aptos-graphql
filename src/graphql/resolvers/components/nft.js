@@ -65,3 +65,29 @@ export const createToken = async (_, {pk, pb, collection, name, desc, uri = '', 
         detail: response.payload
     }
 }
+
+export const tokenBalance = async (_, {owner, creator, collection, name, store = "0x3::token::TokenStore"}) => {
+    if (!owner) throw new GraphQLYogaError(`Collection owner required!`)
+    if (!creator) throw new GraphQLYogaError(`Collection creator required!`)
+    if (!collection) throw new GraphQLYogaError(`Collection name required!`)
+    if (!name) throw new GraphQLYogaError(`Token name required!`)
+
+    const response = await aptos.getTokenBalance(owner, creator, collection, name, store)
+
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+
+    return response.payload
+}
+
+export const tokenData = async (_, {owner, creator, collection, name, store = "0x3::token::Collections"}) => {
+    if (!owner) throw new GraphQLYogaError(`Collection owner required!`)
+    if (!creator) throw new GraphQLYogaError(`Collection creator required!`)
+    if (!collection) throw new GraphQLYogaError(`Collection name required!`)
+    if (!name) throw new GraphQLYogaError(`Token name required!`)
+
+    const response = await aptos.getTokenData(owner, creator, collection, name, store)
+
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+
+    return response.payload
+}

@@ -10,6 +10,20 @@ type Collection {
     max: Int
 }
 
-type Token {
-    _empty: String
+type TokenBalance {
+    creator: String!
+    collection: String!
+    name: String!
+    amount: String!
+    props: JSON
+}
+
+type TokenData {
+    name: String!
+    desc: String!
+    supply: String!
+    maximum: String!
+    royalty: JSON
+    default_props: JSON
+    mutability_config: JSON
 }

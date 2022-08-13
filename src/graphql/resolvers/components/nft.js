@@ -79,6 +79,18 @@ export const tokenBalance = async (_, {owner, creator, collection, name, store =
     return response.payload
 }
 
+export const accountTokenBalance = async ({address}, {collection, name, store = "0x3::token::TokenStore"}) => {
+    if (!address) throw new GraphQLYogaError(`Address not defined!`)
+    if (!collection) throw new GraphQLYogaError(`Collection name required!`)
+    if (!name) throw new GraphQLYogaError(`Token name required!`)
+
+    const response = await aptos.getTokenBalance(address, address, collection, name, store)
+
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+
+    return response.payload
+}
+
 export const tokenData = async (_, {owner, creator, collection, name, store = "0x3::token::Collections"}) => {
     if (!owner) throw new GraphQLYogaError(`Collection owner required!`)
     if (!creator) throw new GraphQLYogaError(`Collection creator required!`)
@@ -86,6 +98,18 @@ export const tokenData = async (_, {owner, creator, collection, name, store = "0
     if (!name) throw new GraphQLYogaError(`Token name required!`)
 
     const response = await aptos.getTokenData(owner, creator, collection, name, store)
+
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+
+    return response.payload
+}
+
+export const accountTokenData = async ({address}, {collection, name, store = "0x3::token::Collections"}) => {
+    if (!address) throw new GraphQLYogaError(`Address not defined!`)
+    if (!collection) throw new GraphQLYogaError(`Collection name required!`)
+    if (!name) throw new GraphQLYogaError(`Token name required!`)
+
+    const response = await aptos.getTokenData(address, address, collection, name, store)
 
     if (!response.ok) throw new GraphQLYogaError(response.message)
 

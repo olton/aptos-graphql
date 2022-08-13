@@ -21,3 +21,4 @@ const query = /* GraphQL */ `
 const response = await fetchGraphQL(GRAPHQL_ENDPOINT_LOCAL, query)
 
 logObject(response)
+

@@ -13,7 +13,15 @@ import {events as eventsByHandle, minting, sentTransactions, receivedTransaction
 import {events} from "./components/events.js";
 import {transactions} from "./components/transactions.js";
 import {tableItem} from "./components/tables.js";
-import {collections, createCollection, createToken, tokenData, tokenBalance} from "./components/nft.js";
+import {
+    collections,
+    createCollection,
+    createToken,
+    tokenData,
+    tokenBalance,
+    accountTokenBalance,
+    accountTokenData
+} from "./components/nft.js";
 
 const Query = {
     hello,
@@ -50,7 +58,9 @@ const Account = {
     modules,
     module,
     events: eventsByHandle,
-    collections
+    collections,
+    tokenBalance: accountTokenBalance,
+    tokenData: accountTokenData,
 }
 
 const Subscription = {

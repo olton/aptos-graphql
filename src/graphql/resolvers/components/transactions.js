@@ -5,6 +5,21 @@ const META_TRANS = 'block_metadata_transaction'
 const GENESIS_TRANS = 'genesis_transaction'
 const STATE_TRANS = 'state_checkpoint_transaction'
 
+export const responseTransaction = tr => {
+    const {type, version, hash, success, vm_status, gas_used, timestamp} = tr
+
+    return {
+        type,
+        version,
+        hash,
+        success,
+        vm_status,
+        gas_used,
+        timestamp,
+        detail: tr
+    }
+}
+
 export const transactionsCount = async () => {
     const rows = await indexer.transCount()
 
@@ -30,7 +45,7 @@ export const transactionsCount = async () => {
 }
 
 export const transaction = async (_, {hash: tr_hash, ver}) => {
-    if (!tr_hash && (!version && version !== 0)) throw new GraphQLYogaError(`Transaction hash or version not defined!`)
+    if (!tr_hash && (!ver && ver !== 0)) throw new GraphQLYogaError(`Transaction hash or version not defined!`)
 
     let response
 
@@ -42,18 +57,7 @@ export const transaction = async (_, {hash: tr_hash, ver}) => {
 
     if (!response.ok) throw new GraphQLYogaError(response.message)
 
-    const {type, version, hash, success, vm_status, gas_used, timestamp} = response.payload
-
-    return {
-        type,
-        version,
-        hash,
-        success,
-        vm_status,
-        gas_used,
-        timestamp,
-        detail: response.payload
-    }
+    return responseTransaction(response.payload)
 }
 
 export const transactions = async (_, {limit, start}) => {
@@ -64,18 +68,9 @@ export const transactions = async (_, {limit, start}) => {
     const result = []
 
     for (let r of response.payload) {
-        const {type, version, hash, success, vm_status, gas_used, timestamp} = r
-        result.push({
-            type,
-            version,
-            hash,
-            success,
-            vm_status,
-            gas_used,
-            timestamp,
-            detail: r
-        })
+        result.push(responseTransaction(r))
     }
 
     return result
 }
+

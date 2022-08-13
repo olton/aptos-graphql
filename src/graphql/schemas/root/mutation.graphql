@@ -1,29 +1,10 @@
 type Mutation {
     faucet(addr: String!, amount: Int!): AccountBalance!
     createAccount: Keys,
-    sendCoins(
-        privateKey: String!,
-        publicKey: String,
-        receiver: String!,
-        amount: String!,
-        coin: String! = "0x1::aptos_coin::AptosCoin"
-    ): OperationBalance
-    createCollection(
-        pk: String!,
-        pb: String,
-        name: String!,
-        desc: String!,
-        uri: String!,
-        max: Int = 0
-    ): Transactions
-    createToken(
-        pk: String!,
-        pb: String,
-        collection: String!,
-        name: String!,
-        desc: String!,
-        uri: String!,
-        supply: Int! = 0
-        max: Int! = 0
-    ): Transactions
+    sendCoins(privateKey: String!, publicKey: String, receiver: String!, amount: String!, coin: String! = "0x1::aptos_coin::AptosCoin"): OperationBalance
+    createCollection(pk: String!, pb: String, name: String!, desc: String!, uri: String!, max: Int = 0): Transactions
+    createToken(pk: String!, pb: String, collection: String!, name: String!, desc: String!, uri: String!, supply: Int! = 0, max: Int! = 0): Transactions
+    createTokenOffer(pk: String!, pb: String, receiver: String!, creator: String!, collection: String!, token: String!, amount: Int!): Transaction
+    claimTokenOffer(pk: String!, pb: String, claimer: String!, creator: String!, collection: String!, token: String!): Transaction
+    cancelTokenOffer(pk: String!, pb: String, receiver: String!, creator: String!, collection: String!, token: String!): Transaction
 }

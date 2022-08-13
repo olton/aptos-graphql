@@ -1,5 +1,6 @@
 import {Account} from "@olton/aptos-api";
 import {GraphQLYogaError} from "@graphql-yoga/node";
+import {responseTransaction} from "./transactions.js";
 
 export const createCollection = async (_, {pk, pb, name, desc, uri = '', max = 0}) => {
     if (!pk) throw new GraphQLYogaError(`Private key required!`)
@@ -10,34 +11,28 @@ export const createCollection = async (_, {pk, pb, name, desc, uri = '', max = 0
     const response = await aptos.createCollection(account, name, desc, uri, max)
     if (!response.ok) throw new GraphQLYogaError(response.message)
 
-    const {type, version, hash, success, vm_status, gas_used, timestamp} = response.payload
-
-    return {
-        type,
-        version,
-        hash,
-        success,
-        vm_status,
-        gas_used,
-        timestamp,
-        detail: response.payload
-    }
+    return responseTransaction(response.payload)
 }
 
-export const collections = async ({address}, {name}) => {
+export const collections = async ({address}) => {
     if (!address) throw new GraphQLYogaError(`Address not defined!`)
+
     const response = await aptos.getCollections(address)
+
     if (!response.ok) throw new GraphQLYogaError(response.message)
-    if (name) {
-        for(let c in response.payload) {
-            if (c.name.toLowerCase() === name.toLowerCase()) {
-                return c
-            }
-        }
-        throw new GraphQLYogaError(`Collection ${name} not found!`)
-    } else {
-        return response.payload
-    }
+
+    return response.payload
+}
+
+export const collection = async ({address}, {name}) => {
+    if (!address) throw new GraphQLYogaError(`Address not defined!`)
+    if (!name) throw new GraphQLYogaError(`Collection name required!`)
+
+    const response = await aptos.getCollection(address, name)
+
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+
+    return response.payload
 }
 
 export const createToken = async (_, {pk, pb, collection, name, desc, uri = '', supply = 0, max = 0}) => {
@@ -52,18 +47,7 @@ export const createToken = async (_, {pk, pb, collection, name, desc, uri = '', 
     const response = await aptos.createToken(account, collection, name, desc, supply, uri, max)
     if (!response.ok) throw new GraphQLYogaError(response.message)
 
-    const {type, version, hash, success, vm_status, gas_used, timestamp} = response.payload
-
-    return {
-        type,
-        version,
-        hash,
-        success,
-        vm_status,
-        gas_used,
-        timestamp,
-        detail: response.payload
-    }
+    return responseTransaction(response.payload)
 }
 
 export const tokenBalance = async (_, {owner, creator, collection, name, store = "0x3::token::TokenStore"}) => {
@@ -115,3 +99,51 @@ export const accountTokenData = async ({address}, {collection, name, store = "0x
 
     return response.payload
 }
+
+export const createTokenOffer = async (_, {pk, pb, receiver, creator, collection, token, amount}) => {
+    if (!pk) throw new GraphQLYogaError(`Private key must be defined!`)
+    if (!receiver) throw new GraphQLYogaError(`Receiver address required!`)
+    if (!creator) throw new GraphQLYogaError(`Creator address required!`)
+    if (!collection) throw new GraphQLYogaError(`Collection name required!`)
+    if (!token) throw new GraphQLYogaError(`Token name required!`)
+    if (!amount) throw new GraphQLYogaError(`You must specify an amount value!`)
+
+    const account = new Account(pk, pb)
+    const response = await aptos.tokenCreateOffer(account, receiver, creator, collection, token, amount)
+
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+
+    return responseTransaction(response.payload)
+}
+
+export const claimTokenOffer = async (_, {pk, pb, claimer, creator, collection, token}) => {
+    if (!pk) throw new GraphQLYogaError(`Private key must be defined!`)
+    if (!claimer) throw new GraphQLYogaError(`Claimer address required!`)
+    if (!creator) throw new GraphQLYogaError(`Creator address required!`)
+    if (!collection) throw new GraphQLYogaError(`Collection name required!`)
+    if (!token) throw new GraphQLYogaError(`Token name required!`)
+
+    const account = new Account(pk, pb)
+    const response = await aptos.tokenClaimOffer(account, claimer, creator, collection, token)
+
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+
+    return responseTransaction(response.payload)
+}
+
+
+export const cancelTokenOffer = async (_, {pk, pb, receiver, creator, collection, token}) => {
+    if (!pk) throw new GraphQLYogaError(`Private key must be defined!`)
+    if (!receiver) throw new GraphQLYogaError(`Claimer address required!`)
+    if (!creator) throw new GraphQLYogaError(`Creator address required!`)
+    if (!collection) throw new GraphQLYogaError(`Collection name required!`)
+    if (!token) throw new GraphQLYogaError(`Token name required!`)
+
+    const account = new Account(pk, pb)
+    const response = await aptos.tokenCancelOffer(account, receiver, creator, collection, token)
+
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+
+    return responseTransaction(response.payload)
+}
+

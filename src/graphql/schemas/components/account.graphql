@@ -14,7 +14,8 @@ type Account {
     modules: [Module]
     module(mod: String!): Module
     events(handle: String, field: String): [Event]
-    collections(name: String): Transactions
+    collections: [Collection]
+    collection(name: String!): Collection
     tokenBalance(collection: String!, name: String!): TokenBalance
     tokenData(collection: String!, name: String!): TokenData
 }

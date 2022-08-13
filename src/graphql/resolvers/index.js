@@ -15,12 +15,16 @@ import {transactions} from "./components/transactions.js";
 import {tableItem} from "./components/tables.js";
 import {
     collections,
+    collection,
     createCollection,
     createToken,
     tokenData,
     tokenBalance,
     accountTokenBalance,
-    accountTokenData
+    accountTokenData,
+    createTokenOffer,
+    claimTokenOffer,
+    cancelTokenOffer
 } from "./components/nft.js";
 
 const Query = {
@@ -42,7 +46,10 @@ const Mutation = {
     createAccount,
     sendCoins,
     createCollection,
-    createToken
+    createToken,
+    createTokenOffer,
+    claimTokenOffer,
+    cancelTokenOffer
 }
 
 const Account = {
@@ -59,6 +66,7 @@ const Account = {
     module,
     events: eventsByHandle,
     collections,
+    collection,
     tokenBalance: accountTokenBalance,
     tokenData: accountTokenData,
 }

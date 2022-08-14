@@ -1,4 +1,5 @@
 import {GraphQLYogaError} from "@graphql-yoga/node";
+import {Account} from "@olton/aptos-api";
 
 const USER_TRANS = 'user_transaction'
 const META_TRANS = 'block_metadata_transaction'
@@ -72,5 +73,31 @@ export const transactions = async (_, {limit, start}) => {
     }
 
     return result
+}
+
+export const signTransaction = async (_, {pk, pb, payload}) => {
+    if (!pk) throw new GraphQLYogaError(`The private key must be specified!`)
+    if (!payload) throw new GraphQLYogaError(`The transaction body (payload) must be specified!`)
+
+    const signer = new Account(pk, pb)
+    const trxBody = typeof payload === 'string' ? payload : JSON.stringify(payload)
+    const signedTrx = await aptos.signTransaction(signer, trxBody)
+
+    if (!signedTrx.ok) throw new GraphQLYogaError(signedTrx.message)
+
+    return signedTrx.payload
+}
+
+export const submitTransaction = async (_, {pk, pb, payload}) => {
+    if (!pk) throw new GraphQLYogaError(`The private key must be specified!`)
+    if (!payload) throw new GraphQLYogaError(`The transaction body (payload) must be specified!`)
+
+    const signer = new Account(pk, pb)
+    const trxBody = typeof payload === 'string' ? JSON.parse(payload) : payload
+    const response = await aptos.submitTransaction(signer, trxBody)
+
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+
+    return response.payload
 }
 

@@ -7,4 +7,6 @@ type Mutation {
     createTokenOffer(pk: String!, pb: String, receiver: String!, creator: String!, collection: String!, token: String!, amount: Int!): Transaction
     claimTokenOffer(pk: String!, pb: String, claimer: String!, creator: String!, collection: String!, token: String!): Transaction
     cancelTokenOffer(pk: String!, pb: String, receiver: String!, creator: String!, collection: String!, token: String!): Transaction
+    signTransaction(pk: String!, pb: String, payload: JSON!): JSON
+    submitTransaction(pk: String!, pb: String, payload: JSON!): Transactions
 }

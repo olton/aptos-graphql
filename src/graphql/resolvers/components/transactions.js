@@ -22,16 +22,9 @@ export const responseTransaction = tr => {
 }
 
 export const transactionsCount = async () => {
-    const rows = await indexer.transCount()
+    const rows = await arch.transactionsCount()
 
     const result = {
-        success: "0",
-        failed: "0",
-        unknown: "0",
-        state_checkpoint_transaction: "0",
-        block_metadata_transaction: "0",
-        user_transaction: "0",
-        genesis_transaction: "0",
     }
 
     if (!rows.ok) {
@@ -39,7 +32,7 @@ export const transactionsCount = async () => {
     }
 
     for(let r of rows.payload) {
-        result[r.type] = r.counter
+        result[r.counter_type] = r.counter_value
     }
 
     return result

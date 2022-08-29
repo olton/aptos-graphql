@@ -9,10 +9,9 @@ export const health = async (_, args) => {
     for(let node of nodes) {
         const aptos = new Aptos(node)
         const response = await aptos.getHealthy()
-        console.log(response)
         result.push({
             node,
-            status: response.ok ? response.payload : response.message
+            status: response.ok ? response.payload.message : response.message
         })
     }
     return result

@@ -3,9 +3,8 @@ import { fileURLToPath } from 'url'
 import fs from "fs"
 import {info, error} from "./helpers/logging.js"
 import {runWebServer} from "./webserver/webserver.js";
-import {Indexer} from "@olton/aptos-indexer-api";
 import {Aptos} from "@olton/aptos-api";
-import {cacheLedger} from "./webserver/processor.js";
+import Archive from "@olton/aptos-archive-api";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const readJson = (p) => JSON.parse(fs.readFileSync(p, 'utf-8'))
@@ -30,27 +29,16 @@ globalThis.ledger = {
 }
 
 const runProcesses = () => {
-    setImmediate(cacheLedger)
-    info(`Aptos GraphQL Server Background processes started!`)
 }
 
 const createAptosConnection = () => {
-    const node = config.aptos.api
-    globalThis.aptos = new Aptos(node)
-    info(`Aptos GraphQL Server connected to default Aptos Node ${node}!`)
+    globalThis.aptos = new Aptos(config.aptos.api)
+    info(`Aptos GraphQL Server connected to Aptos Node!`)
 }
 
-const createIndexerConnection = () => {
-    const {proto, host, port, user, password, database} = config.indexer
-    globalThis.indexer = new Indexer({
-        proto,
-        host,
-        port,
-        user,
-        password,
-        database
-    })
-    info(`Aptos GraphQL Server connected to Indexer on the ${host}!`)
+const createArchiveAPIConnection = () => {
+    globalThis.arch = new Archive(config.archive)
+    info(`Aptos GraphQL Server connected to Archive!`)
 }
 
 export const run = (configPath) => {
@@ -81,7 +69,7 @@ export const run = (configPath) => {
             }
         })
 
-        createIndexerConnection()
+        createArchiveAPIConnection()
         createAptosConnection()
         runProcesses()
         runWebServer()

@@ -1,0 +1,9 @@
+type Payment {
+    version: String
+    hash: String
+    amount: String
+    receiver: String
+    sender: String
+    function: String
+    timestamp: String
+}

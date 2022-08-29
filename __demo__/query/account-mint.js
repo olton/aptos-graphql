@@ -2,18 +2,15 @@ import fetchGraphQL, {GRAPHQL_ENDPOINT, GRAPHQL_ENDPOINT_LOCAL} from "../../src/
 import {logObject} from "../../src/helpers/logging.js";
 
 const query = /* GraphQL */ `
-    query {
-        account(addr: "0x310dfd70948d6b22c5e6a573719e21f0437d4fa4986a106e439a1f9d44dcae0c"){
+    query mintAddress {
+        account(addr: "0x780c1d3d602d7bfe22b2a6c27d77a8f1e6d61c23a123f857b6f64cad9318bf71"){
             minting{
-                type
-                version
                 hash
-                success
-                vm_status
-                gas_used
+                mint
+                receiver
+                sender
+                func
                 timestamp
-                amount
-                coin
             }
         }
     }

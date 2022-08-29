@@ -1,11 +1,11 @@
 type TransactionsCount {
     success: String
     failed: String
-    unknown: String
-    state_checkpoint_transaction: String
-    block_metadata_transaction: String
-    user_transaction: String
-    genesis_transaction: String
+    total: String
+    state: String
+    meta: String
+    user: String
+    genesis: String
 }
 
 type Transaction {
@@ -21,16 +21,12 @@ type Transaction {
 }
 
 type Mint {
-    type: String
-    version: String
-    hash: String
-    success: Boolean
-    vm_status: String
-    gas_used: String
+    hash: String,
+    mint: String,
+    sender: String
+    receiver: String
+    func: String
     timestamp: String
-    amount: String
-    coin: String
-    detail: JSON
 }
 
 type Proposal {

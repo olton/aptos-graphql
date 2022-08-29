@@ -100,25 +100,20 @@ export const events = async ({address}, {handle, field}) => {
     return result
 }
 
-export const minting = async ({address}, {coin = "*", limit = 25, offset = 0}) => {
+export const minting = async ({address}, {order = "timestamp desc", limit = 25, offset = 0}) => {
     if (!address) throw new GraphQLYogaError(`Address required!`)
-    const response = await indexer.minting(address, coin, {limit, offset})
+    const response = await arch.mintAddress(address, {order, limit, offset})
     if (!response.ok) throw new GraphQLYogaError(response.message)
     const result = []
 
     for (let tr of response.payload){
-        const {type, version, hash, success, vm_status, gas_used, timestamp} = tr
         result.push({
-            type,
-            version,
-            hash,
-            success,
-            vm_status,
-            gas_used,
-            timestamp,
-            amount: tr.payload.arguments[1],
-            coin: coin === "*" ? tr.payload.function : coin,
-            detail: tr
+            hash: tr.hash,
+            mint: tr.mint,
+            sender: tr.sender,
+            receiver: tr.receiver,
+            func: tr.function,
+            timestamp: tr.timestamp,
         })
     }
 
@@ -141,35 +136,9 @@ const getTransBody = data => {
     }
 }
 
-export const sentTransactions = async ({address}, {limit = 25, offset = 0}) => {
-    if (!address) throw new GraphQLYogaError(`Address required!`)
-    const response = await indexer.sentTransactions(address, {limit, offset})
-    if (!response.ok) throw new GraphQLYogaError(response.message)
-    const result = []
-
-    for (let tr of response.payload){
-        result.push(getTransBody(tr))
-    }
-
-    return result
-}
-
-export const receivedTransactions = async ({address}, {limit = 25, offset = 0}) => {
-    if (!address) throw new GraphQLYogaError(`Address required!`)
-    const response = await indexer.receivedTransactions(address, {limit, offset})
-    if (!response.ok) throw new GraphQLYogaError(response.message)
-    const result = []
-
-    for (let tr of response.payload){
-        result.push(getTransBody(tr))
-    }
-
-    return result
-}
-
 export const proposal = async ({address}, {limit = 25, offset = 0}) => {
     if (!address) throw new GraphQLYogaError(`Address required!`)
-    const response = await indexer.proposalTransactions(address, {limit, offset})
+    const response = await arch.proposalTransactions(address, {limit, offset})
     if (!response.ok) throw new GraphQLYogaError(response.message)
     const result = []
 
@@ -208,9 +177,9 @@ export const rounds = async ({address}) => {
     return result
 }
 
-export const transactions = async ({address}, {order = "timestamp desc", limit = 25, offset = 0}, context, info) => {
+export const transactions = async ({address}, {order = "timestamp desc", limit = 25, offset = 0} = {}, context, info) => {
     if (!address) throw new GraphQLYogaError(`Address required!`)
-    const response = await indexer.transactions(address, {order, limit, offset})
+    const response = await arch.transactions(address, {order, limit, offset})
     if (!response.ok) throw new GraphQLYogaError(response.message)
     const result = []
 
@@ -232,3 +201,24 @@ export const transactions = async ({address}, {order = "timestamp desc", limit =
 
     return result
 }
+
+export const incomingPayments = async ({address}, {order = "version", limit = 25, offset = 0} = {}) => {
+    if (!address) throw new GraphQLYogaError(`Address required!`)
+
+    const response = await indexer.incomingPayments(address, order, {limit, offset})
+
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+
+    return response.payload
+}
+
+export const outgoingPayments = async ({address}, {order = "version", limit = 25, offset = 0} = {}) => {
+    if (!address) throw new GraphQLYogaError(`Address required!`)
+
+    const response = await indexer.outgoingPayments(address, order, {limit, offset})
+
+    if (!response.ok) throw new GraphQLYogaError(response.message)
+
+    return response.payload
+}
+

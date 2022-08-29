@@ -9,7 +9,14 @@ import {createAccount, account} from "./components/account.js";
 import {sendCoins} from "./components/coins.js";
 import {version} from "./components/version.js";
 import {resources, resource, modules, module} from "./components/account.js";
-import {events as eventsByHandle, minting, sentTransactions, receivedTransactions, transactions as accountTransactions, proposal, rounds} from "./components/account.js";
+import {
+    events as eventsByHandle,
+    minting,
+    transactions as accountTransactions,
+    proposal,
+    rounds,
+    outgoingPayments,
+    incomingPayments} from "./components/account.js";
 import {events} from "./components/events.js";
 import {transactions} from "./components/transactions.js";
 import {tableItem} from "./components/tables.js";
@@ -55,8 +62,6 @@ const Mutation = {
 const Account = {
     balance,
     minting,
-    sentTransactions,
-    receivedTransactions,
     transactions: accountTransactions,
     proposal,
     rounds,
@@ -69,6 +74,8 @@ const Account = {
     collection,
     tokenBalance: accountTokenBalance,
     tokenData: accountTokenData,
+    incomingPayments,
+    outgoingPayments
 }
 
 const Subscription = {

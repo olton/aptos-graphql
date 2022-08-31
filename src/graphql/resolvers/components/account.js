@@ -163,7 +163,7 @@ export const proposal = async ({address}, {limit = 25, offset = 0}) => {
 
 export const rounds = async ({address}) => {
     if (!address) throw new GraphQLYogaError(`Address required!`)
-    const response = await indexer.roundsPerEpoch(address)
+    const response = await arch.roundsPerEpochByAddress(address)
     if (!response.ok) throw new GraphQLYogaError(response.message)
     const result = []
 
@@ -179,7 +179,7 @@ export const rounds = async ({address}) => {
 
 export const transactions = async ({address}, {order = "timestamp desc", limit = 25, offset = 0} = {}, context, info) => {
     if (!address) throw new GraphQLYogaError(`Address required!`)
-    const response = await arch.transactions(address, {order, limit, offset})
+    const response = await arch.transactionsFromAddress(address, {order, limit, offset})
     if (!response.ok) throw new GraphQLYogaError(response.message)
     const result = []
 
@@ -205,7 +205,7 @@ export const transactions = async ({address}, {order = "timestamp desc", limit =
 export const incomingPayments = async ({address}, {order = "version", limit = 25, offset = 0} = {}) => {
     if (!address) throw new GraphQLYogaError(`Address required!`)
 
-    const response = await indexer.incomingPayments(address, order, {limit, offset})
+    const response = await arch.incomingPayments(address, order, {limit, offset})
 
     if (!response.ok) throw new GraphQLYogaError(response.message)
 
@@ -215,7 +215,7 @@ export const incomingPayments = async ({address}, {order = "version", limit = 25
 export const outgoingPayments = async ({address}, {order = "version", limit = 25, offset = 0} = {}) => {
     if (!address) throw new GraphQLYogaError(`Address required!`)
 
-    const response = await indexer.outgoingPayments(address, order, {limit, offset})
+    const response = await arch.outgoingPayments(address, order, {limit, offset})
 
     if (!response.ok) throw new GraphQLYogaError(response.message)
 

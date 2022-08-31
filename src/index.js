@@ -5,6 +5,7 @@ import {info, error} from "./helpers/logging.js"
 import {runWebServer} from "./webserver/webserver.js";
 import {Aptos} from "@olton/aptos-api";
 import Archive from "@olton/aptos-archive-api";
+import {saveLedgerState} from "./graphql/resolvers/components/ledger.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const readJson = (p) => JSON.parse(fs.readFileSync(p, 'utf-8'))
@@ -29,6 +30,7 @@ globalThis.ledger = {
 }
 
 const runProcesses = () => {
+    setImmediate(saveLedgerState)
 }
 
 const createAptosConnection = () => {

@@ -27,3 +27,8 @@ export const ledger = async (_, args) => {
     }
     return result
 }
+
+export const saveLedgerState = async () => {
+    globalThis.ledger = await ledger()
+    setTimeout(saveLedgerState, 5_000)
+}
